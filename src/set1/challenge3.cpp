@@ -1,12 +1,12 @@
 #include "set1/set1.h"
 
-
+//////////////////////
 // Set 1 Challenge 3: Single-byte XOR cipher
 // The hex encoded string:
 // 1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736
 // ... has been XOR'd against a single character. Find the key and decrypt the message.
 // How? Devise some method for "scoring" a piece of English plaintext. Character frequency is a good metric. Evaluate each output and choose the one with the best score.
-
+/////////////////////
 
 // Solo para probar la función single_byte_xor_decrypt sin testeo, para sacar el texto descifrado y la clave
 // int main() {
@@ -64,8 +64,7 @@ std::string xor_decrypt_single_byte(const std::vector<uint8_t>& ciphertext, uint
     }
     return plaintext;
 }
-
-// Resumen muy corto en una frase: 
+ 
 // Descifra un texto cifrado con XOR de un solo byte probando todas las posibles claves y eligiendo la que produce el texto con la mejor puntuación 
 std::pair<std::string, uint8_t> single_byte_xor_decrypt(const std::string& hex) {
     std::vector<uint8_t> ciphertext = hex_to_bytes(hex); // Convierte la cadena hexadecimal de entrada a un vector de bytes para su procesamiento
@@ -89,7 +88,7 @@ std::pair<std::string, uint8_t> single_byte_xor_decrypt(const std::string& hex) 
         }
     }
 
-    return std::make_pair(best_plaintext, best_key); 
+    return {best_plaintext, best_key}; 
     // return best_plaintext, best_key;
 }
 

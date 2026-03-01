@@ -12,6 +12,8 @@ add_library(set1_lib STATIC
     src/set1/challenge2.cpp
     src/set1/challenge3.cpp
     src/set1/challenge4.cpp
+    src/set1/challenge5.cpp
+    src/set1/challenge6.cpp
 ) 
 # Agrega una biblioteca estática llamada "set1_lib" que se compila a partir del archivo "challenge1.cpp" ubicado en "src/set 1/".
 # Una biblioteca estática es un archivo que contiene código objeto que se enlaza con el ejecutable en tiempo de compilación, lo que permite reutilizar el código en diferentes
@@ -64,5 +66,14 @@ target_link_libraries(test_challenge4 PRIVATE set1_lib GTest::gtest_main)
 target_include_directories(test_challenge4 PRIVATE src)
 add_test(NAME TestChallenge4 COMMAND test_challenge4)
 
+add_executable(test_challenge5 tests/set1/test_challenge5.cpp)
+target_link_libraries(test_challenge5 PRIVATE set1_lib GTest::gtest_main)
+target_include_directories(test_challenge5 PRIVATE src)
+add_test(NAME TestChallenge5 COMMAND test_challenge5)
+
+add_executable(test_challenge6 tests/set1/test_challenge6.cpp)
+target_link_libraries(test_challenge6 PRIVATE set1_lib GTest::gtest_main)
+target_include_directories(test_challenge6 PRIVATE src)
+add_test(NAME TestChallenge6 COMMAND test_challenge6)
 
 

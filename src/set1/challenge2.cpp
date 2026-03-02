@@ -1,10 +1,4 @@
-#include "set1/set1.h" // Incluye el archivo de encabezado "set1.h" que contiene la declaración de la función hex_to_base64,
-                            // lo que permite utilizar esa función en este archivo fuente para implementar su funcionalidad.
-#include <stdexcept>
-#include <vector>
-#include <string>
-#include <cstdint>
-
+#include "set1/set1.h" 
 
 // Set 1 Challenge 2: Fixed XOR
 // Write a function that takes two equal-length buffers and produces their XOR combination.
@@ -18,7 +12,6 @@
 // bytes to hex
 std::string bytes_to_hex(const std::vector<uint8_t>& bytes) {
     std::string hex; // Cadena para almacenar el resultado en formato hexadecimal
-    //hex.reserve(bytes.size() * 2); // Reserva espacio en la cadena hexadecimal para el número de bytes que se convertirán
 
     for (uint8_t byte : bytes) { // Itera sobre cada byte en el vector de bytes
         // Convierte cada byte a su representación hexadecimal de dos caracteres y lo agrega a la cadena hex

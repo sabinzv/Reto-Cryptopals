@@ -2,9 +2,10 @@
 
 **Requisitos**
 
-- Compiler C++ compatible con C++17
+- Compiler C++ compatible con C++17 o superior
 - CMake (>= 3.10)
-- Google Test
+- Google Test (para pruebas unitarias)
+- OpenSSL (para descifrado AES en challenge7)
 
 **Estructura del proyecto**
 

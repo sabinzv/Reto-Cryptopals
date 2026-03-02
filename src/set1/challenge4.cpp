@@ -34,10 +34,6 @@ std::string detect_single_char_xor(const std::string& filename) {
     // Leer cada hex string de 60 caracteres 
     while (std::getline(file, line)) {
         line_number++;
-
-        // eliminar espacios y \r que pueden estar presentes al leer líneas de un archivo, especialmente si el archivo fue creado o editado en un sistema operativo
-        // diferente (como Windows, que utiliza \r\n para las nuevas líneas).
-        line.erase(std::remove_if(line.begin(), line.end(), ::isspace), line.end());
         
         // Saltar líneas vacías
         if (line.empty()) {

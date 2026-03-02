@@ -1,6 +1,5 @@
 #include <gtest/gtest.h> // Google Test framework
-#include "set1/set1.h" // Incluye el archivo de encabezado "set1.h" que contiene la declaración de la función hex_to_base64,
-                            // lo que permite utilizar esa función en este archivo fuente para implementar su funcionalidad.
+#include "set1/set1.h"
 
 
 TEST(Set1Challenge1, HexToBase64) { // Test para la función hex_to_base64, que convierte una cadena hexadecimal a su representación en base64

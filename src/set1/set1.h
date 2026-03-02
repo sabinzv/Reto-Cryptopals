@@ -10,6 +10,11 @@
 #include <iostream>
 #include <fstream>
 #include <array>
+#include <openssl/evp.h>
+#include <openssl/err.h>
+#include <sstream>
+#include <set>
+
 
 //////////////////////////////////
 // Challenge 1
@@ -61,3 +66,16 @@ std::vector<uint8_t> base64_to_bytes(const std::string& base64);
 // Break repeating-key XOR cipher (returns <key, plaintext>)
 std::pair<std::string, std::string> break_repeating_key_xor(const std::vector<uint8_t>& ciphertext);
 //////////////////////////////////
+
+////////////////////////////////////
+// Challenge 7
+// AES-128-ECB decryption helper and challenge runner
+std::string aes_128_ecb_decrypt(const std::vector<uint8_t>& ciphertext, const std::string& key);
+std::string decrypt_challenge7();
+////////////////////////////////////
+
+////////////////////////////////////
+// Challenge 8
+// Detect AES in ECB mode
+std::string detect_aes_ecb(const std::vector<std::string>& hex_ciphertexts);
+////////////////////////////////////

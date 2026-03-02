@@ -3,12 +3,12 @@
 
 TEST(Set1Challenge3, SingleByteXORDecrypt) {
     // Challenge 3: Single-byte XOR cipher
-    // Hex string that was XOR'd with a single byte
+    // el mensaje cifrado en hexadecimal que se va a descifrar utilizando XOR de un solo byte.
     std::string ciphertext = "1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736";
     
     // Decrypt the message
     // std::string plaintext = single_byte_xor_decrypt(ciphertext);
-    std::pair<std::string, uint8_t> result = single_byte_xor_decrypt(ciphertext); //
+    std::pair<std::string, uint8_t> result = single_byte_xor_decrypt(ciphertext); 
 
 
     // The expected plaintext is "Cooking MC's like a pound of bacon"

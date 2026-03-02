@@ -36,11 +36,10 @@ int hamming_distance(const std::vector<uint8_t>& a, const std::vector<uint8_t>& 
 // -----------------------------------------------------------------------------
 
 
-// base64 decoding
-// this simple decoder ignores whitespace and padding characters
-// The function itself isn't needed by the core breaker (which works on raw bytes);
-// it's provided so callers (e.g. tests) can convert the provided base64 file into
-// a byte vector before handing it to break_repeating_key_xor.
+// decodificador base64 
+// Función para decodificar una cadena base64 a un vector de bytes. Utiliza una tabla de caracteres inversa para mapear
+// los caracteres base64 a sus valores numéricos. Procesa la cadena base64, acumulando bits y extrayendo bytes cada vez
+// que se alcanzan 8 bits completos. Maneja caracteres de relleno '=' y espacios en blanco adecuadamente.
 std::vector<uint8_t> base64_to_bytes(const std::string& base64) {
     static const std::array<int, 256> rev = [] {
         std::array<int, 256> m;
@@ -53,7 +52,6 @@ std::vector<uint8_t> base64_to_bytes(const std::string& base64) {
     }();
 
     std::vector<uint8_t> out;
-    out.reserve(base64.size() * 3 / 4);
 
     int val = 0;
     int bits = 0;
@@ -78,16 +76,19 @@ std::vector<uint8_t> base64_to_bytes(const std::string& base64) {
 }
 
 // -----------------------------------------------------------------------------
-// helper that runs single-byte xor analysis on a byte vector (instead of hex)
+// Esta función toma un texto y devuelve una puntuación que indica qué tan "parecido a texto" es el texto dado, basada en la
+// frecuencia de caracteres comunes en inglés. Se utiliza para evaluar la calidad de los textos descifrados durante el proceso
+// de ruptura del cifrado XOR de clave repetida. 
 static std::pair<std::string, uint8_t>
 single_byte_xor_decrypt_bytes(const std::vector<uint8_t>& ciphertext) {
     double best_score = -1;
     uint8_t best_key = 0;
     std::string best_plain;
 
+    // Para cada posible clave de un solo byte (0 a 255), se intenta descifrar el texto cifrado utilizando esa clave
+    // y se calcula la puntuación del resultado.
     for (int k = 0; k < 256; ++k) {
         std::string plain;
-        plain.reserve(ciphertext.size());
         for (uint8_t b : ciphertext) {
             plain += static_cast<char>(b ^ static_cast<uint8_t>(k));
         }
@@ -187,7 +188,6 @@ std::pair<std::string, std::string> break_repeating_key_xor(const std::vector<ui
         // Para cada candidato de clave, descifrar el texto completo utilizando la clave candidata y calcular su puntuación
         // para determinar qué tan "parecido a texto" es el resultado.
         std::string plain_candidate;
-        plain_candidate.reserve(ciphertext.size());
         // Para cada byte del texto cifrado, aplicar XOR con el byte correspondiente de la clave candidata (usando módulo para repetir la clave)
         // y construir el texto plano candidato.
         for (size_t i = 0; i < ciphertext.size(); ++i) {

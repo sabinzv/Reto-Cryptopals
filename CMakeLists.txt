@@ -4,7 +4,7 @@ project(Cryptopals LANGUAGES CXX) # Define el nombre del proyecto y especifica q
 set(CMAKE_CXX_STANDARD 17) # Establece el estándar de C++ a utilizar para compilar el proyecto, en este caso C++17
 set(CMAKE_CXX_STANDARD_REQUIRED ON) # Indica que el estándar de C++ especificado es obligatorio, lo que significa que el compilador debe soportar al menos C++17 para compilar este proyecto
 set(CMAKE_CXX_EXTENSIONS OFF) # Desactiva las extensiones específicas del compilador, lo que garantiza que el código se adhiera al estándar de C++ sin utilizar características específicas
-                            # de un compilador en particular
+                              # de un compilador en particular
 
 # Biblioteca con la implementación de los retos
 add_library(set1_lib STATIC
@@ -14,6 +14,8 @@ add_library(set1_lib STATIC
     src/set1/challenge4.cpp
     src/set1/challenge5.cpp
     src/set1/challenge6.cpp
+    src/set1/challenge7.cpp
+    src/set1/challenge8.cpp
 ) 
 # Agrega una biblioteca estática llamada "set1_lib" que se compila a partir del archivo "challenge1.cpp" ubicado en "src/set 1/".
 # Una biblioteca estática es un archivo que contiene código objeto que se enlaza con el ejecutable en tiempo de compilación, lo que permite reutilizar el código en diferentes
@@ -22,6 +24,11 @@ add_library(set1_lib STATIC
 # Especifica que el directorio "src" se debe incluir en la ruta de búsqueda de encabezados para la biblioteca "set1_lib", lo que permite que los archivos fuente
 # dentro de "src" puedan incluir encabezados ubicados en ese directorio utilizando rutas relativas.
 target_include_directories(set1_lib PUBLIC src)
+
+# Link OpenSSL for AES decryption used in challenge7
+find_package(OpenSSL REQUIRED)
+target_link_libraries(set1_lib PRIVATE OpenSSL::Crypto)
+
 
 # Ejecutable (opcional)
 # add_executable(challenge1_app) # si quieres un ejecutable separable
@@ -32,11 +39,12 @@ enable_testing() # Habilita las pruebas para este proyecto
 
 find_package(GTest REQUIRED) # Busca la biblioteca de Google Test (GTest) y marca como requerida, lo que significa que el proyecto no se podrá compilar si GTest no está disponible en el sistema.
 
-add_executable(test_challenge1 tests/set1/test_challenge1.cpp) # Agrega un ejecutable llamado "test_challenge1" que se compila a partir del archivo "test_challenge1.cpp" ubicado en "tests/set1/". Este ejecutable se utilizará para ejecutar las pruebas relacionadas con el desafío 1.
+add_executable(test_challenge1 tests/set1/test_challenge1.cpp) # Agrega un ejecutable llamado "test_challenge1" que se compila a partir del archivo "test_challenge1.cpp" ubicado en "tests/set1/".
+                                                               # Este ejecutable se utilizará para ejecutar las pruebas relacionadas con el desafío 1.
 target_link_libraries(test_challenge1 PRIVATE set1_lib GTest::gtest_main) # Especifica que el ejecutable "test_challenge1" debe enlazarse con la biblioteca "set1_lib" y la
-                                                                                # biblioteca principal de Google Test (GTest::gtest_main) de forma privada, lo que significa que estas
-                                                                                # dependencias solo son necesarias para compilar "test_challenge1" y no se propagan a otros objetivos que puedan
-                                                                                # depender de él.
+                                                                          # biblioteca principal de Google Test (GTest::gtest_main) de forma privada, lo que significa que estas
+                                                                          # dependencias solo son necesarias para compilar "test_challenge1" y no se propagan a otros objetivos que puedan
+                                                                          # depender de él.
 target_include_directories(test_challenge1 PRIVATE src) # Especifica que el directorio "src" se debe incluir en la ruta de búsqueda de encabezados para el ejecutable "test_challenge1"
 add_test(NAME TestChallenge1 COMMAND test_challenge1) # Agrega una prueba llamada "TestChallenge1" que se ejecuta utilizando el ejecutable "test_challenge1"
 
@@ -76,4 +84,22 @@ target_link_libraries(test_challenge6 PRIVATE set1_lib GTest::gtest_main)
 target_include_directories(test_challenge6 PRIVATE src)
 add_test(NAME TestChallenge6 COMMAND test_challenge6)
 
+# Utilizado para ejecutar el challenge7.cpp sin testeo para sacar el texto descifrado y la clave
+# add_executable(run_challenge7 src/set1/challenge7.cpp)
+# target_link_libraries(run_challenge7 PRIVATE set1_lib OpenSSL::Crypto)
+# target_include_directories(run_challenge7 PRIVATE src)
 
+add_executable(test_challenge7 tests/set1/test_challenge7.cpp)
+target_link_libraries(test_challenge7 PRIVATE set1_lib GTest::gtest_main OpenSSL::Crypto)
+target_include_directories(test_challenge7 PRIVATE src)
+add_test(NAME TestChallenge7 COMMAND test_challenge7)
+
+# Utilizado para ejecutar el challenge8.cpp sin testeo para sacar el texto descifrado y la clave
+# add_executable(run_challenge8 src/set1/challenge8.cpp)
+# target_link_libraries(run_challenge8 set1_lib)
+# target_include_directories(run_challenge8 PRIVATE src)
+
+add_executable(test_challenge8 tests/set1/test_challenge8.cpp)
+target_link_libraries(test_challenge8 PRIVATE set1_lib GTest::gtest_main)
+target_include_directories(test_challenge8 PRIVATE src)
+add_test(NAME TestChallenge8 COMMAND test_challenge8)
